@@ -110,6 +110,7 @@ def search_and_scrape(driver, url, search_term, source_name):
             body.send_keys(Keys.HOME)
             time.sleep(2)
             download_button = driver.find_element(By.XPATH, "//*[@id='basic-button']")
+            driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", download_button)
             download_button.click()
             export_excel_option = WebDriverWait(driver, 20).until(
                 EC.presence_of_element_located((By.XPATH, "/html/body/div[9]/div[3]/ul/li"))
@@ -284,6 +285,7 @@ def initialize_driver(search_term, source_name):
     }
     options.add_experimental_option("prefs", prefs)
     # options.add_argument('--headless')  # Run in headless mode
+    options.add_argument('--force-device-scale-factor=0.8')
     driver = webdriver.Chrome(options=options)
     driver.maximize_window()
     return driver
